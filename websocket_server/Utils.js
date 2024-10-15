@@ -17,4 +17,8 @@ export default class Utils {
 		return value === 'true'
 	}
 
+	static getOriginFromUrl(url) {
+		return new URL(url).origin
+	}
+
 }

@@ -1,6 +1,6 @@
 import { beforeAll, afterAll, describe, it, expect, vi } from 'vitest'
 import ServerManager from '../../websocket_server/ServerManager.js'
-import io from 'socket.io-client'
+import { io } from 'socket.io-client'
 import jwt from 'jsonwebtoken'
 import Utils from '../../websocket_server/Utils.js'
 

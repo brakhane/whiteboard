@@ -16,6 +16,7 @@ import RoomDataManager from './RoomDataManager.js'
 import AppManager from './AppManager.js'
 import SocketManager from './SocketManager.js'
 import Utils from './Utils.js'
+import SetupType from './SetupType.js'
 
 export default class ServerManager {
 
@@ -23,12 +24,13 @@ export default class ServerManager {
 		this.config = config
 		this.closing = false
 		this.tokenGenerator = new SharedTokenGenerator()
-		this.apiService = new ApiService(this.tokenGenerator)
+		this.setupType = new SetupType()
+		this.apiService = new ApiService(this.tokenGenerator, this.setupType)
 		this.storageManager = StorageManager.create(this.config.storageStrategy, this.apiService)
 		this.roomDataManager = new RoomDataManager(this.storageManager, this.apiService)
-		this.appManager = new AppManager(this.storageManager)
+		this.appManager = new AppManager(this.storageManager, this.setupType)
 		this.server = this.createConfiguredServer(this.appManager.getApp())
-		this.socketManager = new SocketManager(this.server, this.roomDataManager, this.storageManager)
+		this.socketManager = new SocketManager(this.server, this.roomDataManager, this.storageManager, this.setupType)
 	}
 
 	readTlsCredentials(keyPath, certPath) {

@@ -17,7 +17,7 @@ dotenv.config()
 
 export default class SocketManager {
 
-	constructor(server, roomDataManager, storageManager) {
+	constructor(server, roomDataManager, storageManager, setupType) {
 		this.roomDataManager = roomDataManager
 		this.storageManager = storageManager
 		this.socketDataManager = new SocketDataManager(storageManager)
@@ -25,7 +25,7 @@ export default class SocketManager {
 		this.io = new SocketIO(server, {
 			transports: ['websocket', 'polling'],
 			cors: {
-				origin: process.env.NEXTCLOUD_URL || 'http://nextcloud.local',
+				origin: setupType.getNextcloudSocketUrl(),
 				methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 				credentials: true,
 			},
